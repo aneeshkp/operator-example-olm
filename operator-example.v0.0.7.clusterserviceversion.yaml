@@ -1,0 +1,149 @@
+apiVersion: example.aputtur.com/v1alapha1
+kind: ClusterServiceVersion
+metadata:
+  name: operator-example.v0.0.7 
+  namespace: placeholder
+  annotations:
+    categories: "operator, example, learning"
+    description: Operator Example to learn how to package
+    containerImage: docker.io/aneeshkp/operator-example:v0.0.7
+    createdAt: 20019-10-04T12:00:0z
+    support: aputtur
+    alm-exmples: [{"apiVersion":"example.aputtur.com/v1alpha1","kind":"Aputturkind","metadata":{"name":"aputtur-example","spec":{"count":1,"group":"Demo-App","image":"nginx","port":80},"status":{}}]
+    tectonic-visibility: ocs
+spec:
+  displayName: Operator Example
+  description: |-
+    This Operator is an example which allows to increase the count of pod (ngnix)
+  keywords: ['aputtur', 'example']
+  icon: 
+  version: 0.0.7
+  maturity: 
+  maintainers:
+  - name: Aneesh Puttur 
+    email: aneeshputtur@gmail.com
+  provider:
+    name: aputtur
+  labels:
+    name: operator-example
+  selector:
+    matchLabels:
+      name: operator-example
+  links:
+  - name: operator-example  Operator Source Code
+    url: https://github.com/aneeshkp/operator-example
+  installModes:
+  - type: OwnNamespace
+    supported: true
+  - type: SingleNamespace
+    supported: true
+  - type: MultiNamespace
+    supported: false
+  - type: AllNamespaces
+    supported: true
+  install:
+    strategy: deployment
+    spec:
+      permissions:
+      - serviceAccountName: operator-example
+        rules:
+        - apiGroups:
+          - ""
+          resources:
+          - pods
+          - services
+          - endpoints
+          - persistentvolumeclaims
+          - events
+          - configmaps
+          - secrets
+          verbs:
+          - '*'
+        - apiGroups:
+          - ""
+          resources:
+          - namespaces
+          verbs:
+          - get
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          - daemonsets
+          - replicasets
+          - statefulsets
+          verbs:
+          - '*'
+        - apiGroups:
+          - monitoring.coreos.com
+          resources:
+          - servicemonitors
+          verbs:
+          - get
+          - create
+        - apiGroups:
+          - example.aputtur.com
+          resources:
+          - '*'
+          verbs:
+          - '*'
+      deployments:
+      - name: operator-example
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              name: operator-example
+          template:
+            metadata:
+              labels:
+                name: operator-example
+            spec:
+              serviceAccountName: operator-example
+              containers:
+                - name: operator-example
+                  # Replace this with the built image name
+                  image: aneeshkp/operator-example:v0.0.8
+                  ports:
+                  - containerPort: 60000
+                    name: metrics
+                  command:
+                  - operator-example
+                  imagePullPolicy: Always
+                  readinessProbe:
+                    exec:
+                      command:
+                        - stat
+                        - /tmp/operator-sdk-ready
+                    initialDelaySeconds: 4
+                    periodSeconds: 10
+                    failureThreshold: 1
+                  env:
+                    - name: WATCH_NAMESPACE
+                      valueFrom:
+                        fieldRef:
+                          fieldPath: metadata.namespace
+                    - name: POD_NAME
+                      valueFrom:
+                        fieldRef:
+                          fieldPath: metadata.name
+                    - name: OPERATOR_NAME
+                      value: "operator-example"
+  customresourcedefinitions:
+    owned:
+    - name: aputturkinds.example.aputtur.com
+      version: v1alpha1
+      kind: Aputturkind 
+      displayName: Aputtur Kind 
+      description: Dummy Kind
+      resources:
+        - kind: Service
+          version: v1
+        - kind: Pod
+          version: v1
+      specDescriptors:
+        - description: The desired number of pods.
+          displayName: count
+          path: count
+          x-descriptors:
+            - 'urn:alm:descriptor:com.tectonic.ui:podCount'

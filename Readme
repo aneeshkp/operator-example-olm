@@ -1,0 +1,37 @@
+
+CSV Template link
+https://github.com/awgreene/community-operators/blob/templates/templates/csv.template.yaml
+https://github.com/operator-framework/operator-sdk/blob/master/doc/design/milestone-0.2.0/csv-generation.md
+
+pip3 install operator-courier ( to build , validate and push operator Artifacts)
+operator-courier verify --ui_validate_io path/to/bundle
+operator-courier verify --ui_validate_io deploy/olm-catalog/operator-example/0.0.1/
+(copy crd file to this folder)
+
+descriptios types
+https://github.com/openshift/console/blob/master/frontend/public/components/operator-lifecycle-manager/descriptors/types.ts#L5-L26
+https://github.com/openshift/console/tree/master/frontend/public/components/operator-lifecycle-manager/descriptors
+
+operator registry
+https://github.com/operator-framework/operator-registry#building-a-catalog-of-operators-using-operator-registry
+
+
+scorecard
+operator-sdk scorecard --cr-manifest ./deploy/crds/io_v1alpha1_jaeger_cr.yaml --csv-path ./deploy/bundle/jaeger.v1.8.2.clusterserviceversion.yaml 
+
+
+catalog of operators
+https://github.com/operator-framework/operator-registry#building-a-catalog-of-operators-using-operator-registry
+
+
+https://operatorhub.io/contribute
+
+PASTE YOUT CSV TO VIEW
+https://operatorhub.io/preview
+
+
+
+Tiger some reference
+:https://www.operatorhub.io/getting-started#How-do-I-start-writing-an-Operator
+
+https://github.com/operator-framework/community-operators/issues/260

@@ -1,0 +1,5 @@
+packageName: operator-example
+channels:
+- name: stable
+  currentCSV: operator-example.v0.0.7
+
