@@ -1,3 +1,5 @@
+configmap 
+https://github.com/CrunchyData/postgres-operator/blob/7e867ebf211b488def26dfaf10d7b2b5bbd6f5f6/pgo-scheduler/scheduler/policy.go
 https://medium.com/@shubhomoybiswas/writing-kubernetes-operator-using-operator-sdk-c2e7f845163a
 
 CSV Template link
